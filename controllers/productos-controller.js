@@ -1,29 +1,29 @@
-import { productoServices } from "../servicios/productos-servicios.js";
+import { productoServices } from "../servicios/producto-servicios.js";
 
-const nuevoProducto = (name,price,imageUrl) => {
+const nuevoProducto = (name,price,imageUrl,id) => {
 
     const card = document.createElement("div");
     const contenido =`
-    <div>
-         <img src="${imageUrl}" alt="">
-         <h3>${name}</h3>
-         <p>${price}</p>
-        
-     </div> 
- `;
+    <div class="produto">
+    <img src="${imageUrl}" alt="img">
+    <h1 class="product-name"> ${name} </h1>
+    <p class="preco">${price}</p>
+    <a class="ver-produto" href="../screens/producto.html?id=${id}">Ver Produto</a>
+    </div>   
+`;
+card.innerHTML = contenido;
+card.dataset.id = id;
 
-    card.innerHTML = contenido;
-    card.classList.add("card")
-    return card
+return card;
 }
 
-const producto = document.querySelector("[datos-productos]");
+const producto = document.querySelector("[data-product]");
 
 const render = async () => {
     try{
         const listaProductos = await productoServices.listaProductos()
         listaProductos.forEach(elemento => {
-            producto.appendChild(nuevoProducto(elemento.name, elemento.price, elemento.imageUrl))
+            producto.appendChild(nuevoProducto(elemento.name, elemento.price, elemento.imageUrl, elemento.id))
             
         });
     }
